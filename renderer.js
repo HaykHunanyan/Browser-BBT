@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', async () => {
-  const webview = document.getElementById('view');
   const profileSelect = document.getElementById('profile');
   const goBtn = document.getElementById('go');
   const switchBtn = document.getElementById('switch');
@@ -21,16 +20,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     profileSelect.appendChild(opt);
   });
 
-  webview.addEventListener('dom-ready', () => {
-    console.log('✅ webview ready');
-  });
-
   if (activeProfile) profileSelect.value = activeProfile;
 
   goBtn.onclick = () => {
     let url = input.value.trim();
     if (!url.startsWith('http')) url = 'https://' + url;
-    webview.src = url;
+    window.api.loadURL(url);
   };
 
   switchBtn.onclick = () => {

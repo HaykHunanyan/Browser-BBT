@@ -43,5 +43,6 @@ contextBridge.exposeInMainWorld('api', {
   switchProfile: (profile) => ipcRenderer.send('switch-profile', profile),
   getProfiles: () => ipcRenderer.invoke('get-profiles'),
   createProfile: () => ipcRenderer.invoke('create-profile'),
-  log: (msg) => console.log(msg)
+  log: (msg) => console.log(msg),
+  loadURL: (url) => ipcRenderer.send('load-url', url)
 });

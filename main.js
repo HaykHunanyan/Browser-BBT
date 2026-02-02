@@ -40,7 +40,8 @@ function saveProfiles(profiles) {
 }
 
 function createWindow(profileName) {
-  console.log('profiles',profiles)
+  const profiles = loadProfiles();
+
   if (!profiles[profileName]) {
     console.warn('⚠️ Profile not found, fallback to profile_1');
     profileName = 'profile_1';
@@ -59,17 +60,53 @@ function createWindow(profileName) {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      webviewTag: true,
       session: browserSession
     }
   });
 
-  // win.loadFile('index.html');
   win.loadFile('index.html', {
     query: { profile: profileName }
   });
-  win.webContents.openDevTools();
+
+  win.webContents.openDevTools({ mode: 'detach' });
   currentWindow = win;
+
+  // ✅ Use BrowserView (v40 safe)
+  const view = new BrowserView({
+    webPreferences: {
+      session: browserSession,
+      contextIsolation: true
+    }
+  });
+
+  // attach view to window
+  win.setBrowserView(view);
+
+  // position and size
+  view.setBounds({
+    x: 0,
+    y: 80,
+    width: 1200,
+    height: 720
+  });
+
+  view.setAutoResize({ width: true, height: true });
+
+  // store view in window object
+  win.browserView = view;
+  // optional: open devtools for the view itself
+  view.webContents.openDevTools({ mode: 'detach' });
+
+  // resize handler
+  win.on('resize', () => {
+    const [w, h] = win.getContentSize();
+    view.setBounds({ x: 0, y: 80, width: w, height: h - 80 });
+  });
+
+  // IPC ready signal
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('view-ready');
+  });
 }
 
 /* IPC */
@@ -102,14 +139,15 @@ ipcMain.handle('create-profile', () => {
 });
 
 ipcMain.on('switch-profile', (e, profileName) => {
-  // if (currentWindow) currentWindow.close();
+  if (currentWindow) currentWindow.close();
   createWindow(profileName);
 });
 
 ipcMain.on('load-url', (_, url) => {
-  global.browserView.webContents.loadURL(url);
+  const win = BrowserWindow.getAllWindows()[0]; // or from event.sender
+  if (!win?.browserView) return;
+  win.browserView.webContents.loadURL(url);
 });
-
 /* APP */
 
 app.whenReady().then(() => {
