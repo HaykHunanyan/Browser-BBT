@@ -1,0 +1,74 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Browser</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #bar { display: flex; padding: 6px; background: #111; }
+    input { flex: 1; padding: 6px; }
+    button { margin-left: 5px; }
+  </style>
+</head>
+<body>
+
+  <div id="bar">
+    <input id="url" placeholder="https://youtube.com" />
+    <button id="go" onclick="go()" >Go</button>
+  </div>
+
+  <webview
+  id="view"
+  src="about:blank"
+  allowpopups
+  webpreferences="contextIsolation=yes"
+  style="width:100%; height:calc(100vh - 40px);">
+</webview>
+
+  <script src="renderer.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Browser</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #bar {
+      display: flex;
+      gap: 6px;
+      padding: 6px;
+      background: #111;
+    }
+    input, select, button {
+      padding: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bar">
+    <select id="profile">
+      <option value="profile_1">Profile 1</option>
+      <option value="profile_2">Profile 2</option>
+      <option value="profile_3">Profile 3</option>
+    </select>
+
+    <input id="url" placeholder="https://youtube.com" />
+    <button id="go">Go</button>
+    <button id="switch">Switch Profile</button>
+    <button id="new">New Profile</button>
+  </div>
+
+  <webview
+    id="view"
+    src="about:blank"
+    allowpopups
+    style="width:100%; height:calc(100vh - 40px);">
+  </webview>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

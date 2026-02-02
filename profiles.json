@@ -1,0 +1,24 @@
+{
+  "profiles": {
+    "profile_1": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0",
+      "platform": "Win32",
+      "timezone": "Europe/Berlin",
+      "language": "en-US",
+      "webgl": {
+        "vendor": "Google Inc.",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1660)"
+      }
+    },
+    "profile_2": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X)",
+      "platform": "MacIntel",
+      "timezone": "Europe/Berlin",
+      "language": "de-DE",
+      "webgl": {
+        "vendor": "Apple Inc.",
+        "renderer": "Apple GPU"
+      }
+    }
+  }
+}
